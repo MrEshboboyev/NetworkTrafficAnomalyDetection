@@ -1,0 +1,41 @@
+﻿@model EvaluateModelViewModel
+
+@{
+    ViewData["Title"] = "Evaluate Model";
+}
+
+<div class="container">
+    <h1 class="my-4">Evaluate Model: @Model.ModelName</h1>
+
+    @if (TempData["EvaluationResults"] != null)
+    {
+        <div class="alert alert-success">
+            Evaluation results: @TempData["EvaluationResults"]
+        </div>
+    }
+
+    <form asp-action="Evaluate" method="post">
+        <input type="hidden" name="ModelId" value="@Model.ModelId" />
+
+        <div class="form-group">
+            <label for="TestDataSize">Test Data Size</label>
+            <input type="number" id="TestDataSize" name="TestDataSize" class="form-control" value="@Model.TestDataSize" min="10" max="100000" required />
+            @Html.ValidationMessageFor(model => model.TestDataSize, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="TestPercentage">Test Data Percentage</label>
+            <input type="number" id="TestPercentage" name="TestPercentage" class="form-control" value="@Model.TestPercentage" min="10" max="90" required />
+            @Html.ValidationMessageFor(model => model.TestPercentage, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="UseSeparateTestSet">Use Separate Test Set</label>
+            <input type="checkbox" id="UseSeparateTestSet" name="UseSeparateTestSet" class="form-check-input" @(Model.UseSeparateTestSet ? "checked" : "") />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Evaluate Model</button>
+        </div>
+    </form>
+</div>

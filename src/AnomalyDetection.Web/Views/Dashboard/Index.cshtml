@@ -1,0 +1,289 @@
+﻿@model AnomalyDetection.Web.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Network Anomaly Detection Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="my-4">Network Anomaly Detection Dashboard</h1>
+        </div>
+    </div>
+
+    <!-- Alert Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Anomalies</h5>
+                    <h1 class="display-4">@Model.AnomalyStatistics.TotalAnomalies</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">High Severity</h5>
+                    <h1 class="display-4">@Model.AnomalyStatistics.HighSeverity</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Medium Severity</h5>
+                    <h1 class="display-4">@Model.AnomalyStatistics.MediumSeverity</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Low Severity</h5>
+                    <h1 class="display-4">@Model.AnomalyStatistics.LowSeverity</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Traffic Overview Chart -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Network Traffic Overview</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="trafficChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Anomaly Type Distribution -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Anomaly Types</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="anomalyTypesChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Recent Alerts Table -->
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Alerts</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Severity</th>
+                                    <th>Confidence</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var alert in Model.RecentAlerts)
+                                {
+                                    <tr>
+                                        <td>@alert.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                        <td>@alert.AlertType</td>
+                                        <td>@alert.Description</td>
+                                        <td>
+                                            @if (alert.SeverityLevel == "High")
+                                            {
+                                                <span class="badge bg-danger">High</span>
+                                            }
+                                            else if (alert.SeverityLevel == "Medium")
+                                            {
+                                                <span class="badge bg-warning text-dark">Medium</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-info">Low</span>
+                                            }
+                                        </td>
+                                        <td>@(alert.ConfidenceScore.ToString("P1"))</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary">Details</a>
+                                            <a href="#" class="btn btn-sm btn-success">Acknowledge</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Traffic Statistics -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Top Source IPs</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>IP Address</th>
+                                <th>Packet Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ip in Model.TrafficSummary.TopSourceIps)
+                            {
+                                <tr>
+                                    <td>@ip.Key</td>
+                                    <td>@ip.Value</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Top Destination Ports</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Packet Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var port in Model.TrafficSummary.TopDestinationPorts)
+                            {
+                                <tr>
+                                    <td>@port.Key</td>
+                                    <td>@port.Value</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Mock data for charts - in a real application, this would come from the model
+        document.addEventListener('DOMContentLoaded', function() {
+            // Traffic Overview Chart
+            var trafficCtx = document.getElementById('trafficChart').getContext('2d');
+            var trafficChart = new Chart(trafficCtx, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
+                    datasets: [{
+                        label: 'Normal Traffic',
+                        data: [500, 600, 450, 400, 650, 750, 800, 900, 850, 700, 600, 550],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        tension: 0.3
+                    }, {
+                        label: 'Anomalous Traffic',
+                        data: [50, 30, 20, 25, 40, 90, 120, 35, 25, 15, 10, 20],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Traffic Volume (24 Hours)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Packet Count'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Time'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Anomaly Types Chart
+            var anomalyTypesCtx = document.getElementById('anomalyTypesChart').getContext('2d');
+            var anomalyData = @Html.Raw(Json.Serialize(Model.AnomalyStatistics.AnomalyTypes));
+            var anomalyLabels = Object.keys(anomalyData);
+            var anomalyCounts = anomalyLabels.map(function(key) { return anomalyData[key]; });
+
+            var anomalyTypesChart = new Chart(anomalyTypesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: anomalyLabels,
+                    datasets: [{
+                        data: anomalyCounts,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Anomaly Distribution'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
