@@ -5,37 +5,79 @@
 }
 
 <div class="container">
-    <h1 class="my-4">Evaluate Model: @Model.ModelName</h1>
+    <h1 class="mb-4">@ViewData["Title"]: @Model.ModelName</h1>
 
-    @if (TempData["EvaluationResults"] != null)
-    {
-        <div class="alert alert-success">
-            Evaluation results: @TempData["EvaluationResults"]
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form asp-action="Evaluate" method="post">
+                        <input type="hidden" asp-for="ModelId" />
+                        <input type="hidden" asp-for="ModelName" />
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="UseSeparateTestSet" value="true" checked />
+                                <label class="form-check-label">Use separate test set</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="UseSeparateTestSet" value="false" />
+                                <label class="form-check-label">Split training data</label>
+                            </div>
+                        </div>
+
+                        <div id="split-options" style="display: none;">
+                            <div class="mb-3">
+                                <label asp-for="TestPercentage" class="form-label"></label>
+                                <input asp-for="TestPercentage" class="form-control" min="10" max="90" />
+                                <span asp-validation-for="TestPercentage" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Evaluate Model</button>
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    }
-
-    <form asp-action="Evaluate" method="post">
-        <input type="hidden" name="ModelId" value="@Model.ModelId" />
-
-        <div class="form-group">
-            <label for="TestDataSize">Test Data Size</label>
-            <input type="number" id="TestDataSize" name="TestDataSize" class="form-control" value="@Model.TestDataSize" min="10" max="100000" required />
-            @Html.ValidationMessageFor(model => model.TestDataSize, "", new { @class = "text-danger" })
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Evaluation Information</h5>
+                </div>
+                <div class="card-body">
+                    <p>Model evaluation will calculate:</p>
+                    <ul>
+                        <li>Accuracy</li>
+                        <li>Precision</li>
+                        <li>Recall</li>
+                        <li>F1 Score</li>
+                    </ul>
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle"></i> Evaluation requires labeled test data with anomaly flags.
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="TestPercentage">Test Data Percentage</label>
-            <input type="number" id="TestPercentage" name="TestPercentage" class="form-control" value="@Model.TestPercentage" min="10" max="90" required />
-            @Html.ValidationMessageFor(model => model.TestPercentage, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            <label for="UseSeparateTestSet">Use Separate Test Set</label>
-            <input type="checkbox" id="UseSeparateTestSet" name="UseSeparateTestSet" class="form-check-input" @(Model.UseSeparateTestSet ? "checked" : "") />
-        </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Evaluate Model</button>
-        </div>
-    </form>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Show/hide split options based on radio selection
+            $('input[name="UseSeparateTestSet"]').change(function() {
+                if ($(this).val() === 'false') {
+                    $('#split-options').show();
+                } else {
+                    $('#split-options').hide();
+                }
+            });
+
+            // Trigger change event on page load
+            $('input[name="UseSeparateTestSet"]:checked').trigger('change');
+        });
+    </script>
+}

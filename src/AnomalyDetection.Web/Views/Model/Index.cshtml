@@ -1,57 +1,75 @@
-﻿@model IEnumerable<AnomalyDetection.Core.Entities.MLModel>
+﻿@model IEnumerable<MLModel>
 
 @{
-    ViewData["Title"] = "Model Management";
+    ViewData["Title"] = "Anomaly Detection Models";
 }
 
 <div class="container">
-    <h1 class="my-4">Machine Learning Models</h1>
-    
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
-        </div>
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
     }
-    
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger">
-            @TempData["ErrorMessage"]
-        </div>
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
     }
 
-    <a href="@Url.Action("Train")" class="btn btn-primary mb-3">Train New Model</a>
+    <div class="mb-3">
+        <a asp-action="Train" class="btn btn-primary">Train New Model</a>
+    </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Created At</th>
-                <th>Last Trained</th>
-                <th>F1 Score</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.ModelType</td>
-                    <td>@item.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                    <td>@item.LastTrainedAt.ToString("yyyy-MM-dd HH:mm:ss") ?? "Not trained yet"</td>
-                    <td>@item.F1Score.ToString("P2")</td>
-                    <td>
-                        <a href="@Url.Action("Evaluate", new { id = item.Id })" class="btn btn-info btn-sm">Evaluate</a>
-                        <a href="@Url.Action("Download", new { id = item.Id })" class="btn btn-success btn-sm">Download</a>
-                        <form method="post" action="@Url.Action("Delete", new { id = item.Id })" style="display:inline" onsubmit="return confirm('Are you sure you want to delete this model?');">
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="card shadow">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Version</th>
+                        <th>Accuracy</th>
+                        <th>Last Trained</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.ModelType</td>
+                            <td>@item.Version</td>
+                            <td>@(item.Accuracy.ToString("P2"))</td>
+                            <td>@item.LastTrainedAt.ToString("g")</td>
+                            <td>
+                                @if (item.IsProduction)
+                                {
+                                    <span class="badge bg-success">Production</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Staging</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                                    <a asp-action="Evaluate" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Evaluate</a>
+                                    <a asp-action="Download" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Download</a>
+                                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure you want to delete this model?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
