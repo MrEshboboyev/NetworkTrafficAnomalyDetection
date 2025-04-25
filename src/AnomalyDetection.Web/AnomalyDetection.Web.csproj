@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="CsvHelper" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CsvHelper" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\AnomalyDetection.Core\AnomalyDetection.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\AnomalyDetection.Core\AnomalyDetection.Core.csproj" />
+		<ProjectReference Include="..\AnomalyDetection.Data\AnomalyDetection.Data.csproj" />
+		<ProjectReference Include="..\AnomalyDetection.ML\AnomalyDetection.ML.csproj" />
+	</ItemGroup>
 
 </Project>

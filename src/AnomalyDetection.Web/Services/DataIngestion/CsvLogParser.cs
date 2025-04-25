@@ -1,4 +1,6 @@
-﻿// AnomalyDetection.Web/Services/DataIngestion/CsvLogParser.cs
+﻿using AnomalyDetection.Core.Entities;
+using CsvHelper;
+using CsvHelper.Configuration;
 using System.Globalization;
 
 namespace AnomalyDetection.Web.Services.DataIngestion;
@@ -12,6 +14,8 @@ public class CsvLogParser : ILogFileParser
 
     public async Task<IEnumerable<NetworkTrafficLog>> ParseAsync(Stream fileStream)
     {
+        await Task.Delay(1); // Simulate async operation
+
         using var reader = new StreamReader(fileStream);
         using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
 
