@@ -88,6 +88,9 @@ using (var scope = app.Services.CreateScope())
 
         // Seed initial admin user
         await SeedData.SeedUsersAsync(userManager, roleManager);
+
+        // Seed additional data (1000 records for AnomalyAlert, NetworkTrafficLog, and MLModel)
+        await SeedData.SeedAnomalyDataAsync(context);
     }
     catch (Exception ex)
     {

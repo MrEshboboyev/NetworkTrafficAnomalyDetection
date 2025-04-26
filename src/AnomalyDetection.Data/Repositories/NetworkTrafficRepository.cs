@@ -9,12 +9,12 @@ public class NetworkTrafficRepository(ApplicationDbContext context) : INetworkTr
 {
     public async Task<IEnumerable<NetworkTrafficLog>> GetTrainingDataAsync()
     {
-        // Get data from the last 30 days, excluding the most recent 2 days (for test data)
-        var cutoffDate = DateTime.UtcNow.AddDays(-2);
-        var startDate = DateTime.UtcNow.AddDays(-30);
+        //// Get data from the last 30 days, excluding the most recent 2 days (for test data)
+        //var cutoffDate = DateTime.UtcNow.AddDays(-2);
+        //var startDate = DateTime.UtcNow.AddDays(-30);
 
         return await context.NetworkTrafficLogs
-            .Where(log => log.Timestamp >= startDate && log.Timestamp < cutoffDate)
+            //.Where(log => log.Timestamp >= startDate && log.Timestamp < cutoffDate)
             .OrderBy(log => log.Timestamp)
             .ToListAsync();
     }
