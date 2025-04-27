@@ -1,0 +1,75 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Network Anomaly Detection System</h1>
+    <p class="lead">Monitor and analyze your network traffic for unusual patterns and potential security threats.</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">System Overview</h5>
+            </div>
+            <div class="card-body">
+                <p>The Network Anomaly Detection System monitors your network traffic in real-time, identifying potential security threats using advanced machine learning algorithms.</p>
+                <p>Key features:</p>
+                <ul>
+                    <li>Real-time traffic monitoring</li>
+                    <li>Machine learning-based anomaly detection</li>
+                    <li>Automated alerts for suspicious activities</li>
+                    <li>Detailed traffic analysis and visualization</li>
+                </ul>
+                <div class="text-center mt-3">
+                    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">View Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Recent Alerts</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentAlerts != null && Model.RecentAlerts.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Source IP</th>
+                                    <th>Destination IP</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var alert in Model.RecentAlerts)
+                                {
+                                    <tr>
+                                        <td>@alert.Timestamp.ToString("HH:mm:ss")</td>
+                                        <td>@alert.SourceIp</td>
+                                        <td>@alert.DestinationIp</td>
+                                        <td><span class="badge bg-danger">@alert.AnomalyScore.ToString("0.00")</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-center">No recent alerts detected</p>
+                }
+                <div class="text-center mt-3">
+                    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-danger">View All Alerts</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

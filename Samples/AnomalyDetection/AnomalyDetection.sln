@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36015.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnomalyDetection.Domain", "src\AnomalyDetection.Domain\AnomalyDetection.Domain.csproj", "{F6A58F42-BE88-4506-85F3-6DCDDDBD7D32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnomalyDetection.Infrastructure", "src\AnomalyDetection.Infrastructure\AnomalyDetection.Infrastructure.csproj", "{C31656A7-6446-4D38-A545-E9F247589965}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnomalyDetection.Application", "src\AnomalyDetection.Application\AnomalyDetection.Application.csproj", "{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6A58F42-BE88-4506-85F3-6DCDDDBD7D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A58F42-BE88-4506-85F3-6DCDDDBD7D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A58F42-BE88-4506-85F3-6DCDDDBD7D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A58F42-BE88-4506-85F3-6DCDDDBD7D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C31656A7-6446-4D38-A545-E9F247589965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C31656A7-6446-4D38-A545-E9F247589965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C31656A7-6446-4D38-A545-E9F247589965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C31656A7-6446-4D38-A545-E9F247589965}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6A58F42-BE88-4506-85F3-6DCDDDBD7D32} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C31656A7-6446-4D38-A545-E9F247589965} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {847C7A80-FC5D-4772-A797-C865824C53E5}
+	EndGlobalSection
+EndGlobal
