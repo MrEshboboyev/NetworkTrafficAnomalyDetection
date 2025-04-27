@@ -1,6 +1,4 @@
-﻿using AnomalyDetection.ML.Models;
-
-namespace AnomalyDetection.ML.Trainers;
+﻿namespace AnomalyDetection.ML.Models;
 
 public class AnomalyDetectionResult
 {

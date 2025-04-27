@@ -1,6 +1,4 @@
-﻿using AnomalyDetection.ML.Models;
-
-namespace AnomalyDetection.ML.Trainers;
+﻿namespace AnomalyDetection.ML.Models;
 
 // Helper class for evaluation
 public class LabeledNetworkTrafficData

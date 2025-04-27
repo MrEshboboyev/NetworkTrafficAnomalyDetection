@@ -1,4 +1,4 @@
-﻿namespace AnomalyDetection.ML.Trainers;
+﻿namespace AnomalyDetection.ML.Models;
 
 public class ModelMetrics
 {
