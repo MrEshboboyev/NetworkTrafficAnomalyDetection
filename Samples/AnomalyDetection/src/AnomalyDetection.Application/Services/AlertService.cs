@@ -7,25 +7,17 @@ using System.Text;
 
 namespace AnomalyDetection.Application.Services;
 
-public class AlertService
+public class AlertService(
+    ILogger<AlertService> logger,
+    IRepository<NetworkTrafficLog> repository)
 {
-    private readonly ILogger<AlertService> _logger;
-    private readonly IRepository<NetworkTrafficLog> _repository;
 
     // In a real system, this might be connected to a notification service
     public event EventHandler<NetworkTrafficLog> AlertGenerated;
 
-    public AlertService(
-        ILogger<AlertService> logger,
-        IRepository<NetworkTrafficLog> repository)
-    {
-        _logger = logger;
-        _repository = repository;
-    }
-
     public async Task CreateAlertAsync(NetworkTrafficLog log)
     {
-        _logger.LogWarning("ALERT: Anomaly detected in traffic log ID {logId} with score {score}",
+        logger.LogWarning("ALERT: Anomaly detected in traffic log ID {logId} with score {score}",
             log.Id, log.AnomalyScore);
 
         // In a real system, you would save the alert to a database
@@ -40,7 +32,7 @@ public class AlertService
     public async Task<IEnumerable<NetworkTrafficLog>> GetRecentAlertsAsync(int count = 10)
     {
         // Get the most recent anomalies
-        var recentAlerts = await _repository.FindAsync(log => log.IsAnomaly);
+        var recentAlerts = await repository.FindAsync(log => log.IsAnomaly);
         return recentAlerts;
     }
 }

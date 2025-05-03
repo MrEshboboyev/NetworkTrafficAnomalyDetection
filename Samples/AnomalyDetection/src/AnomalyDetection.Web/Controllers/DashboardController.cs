@@ -1,33 +1,18 @@
-﻿using AnomalyDetection.Application.Services;
-using AnomalyDetection.Application.ViewModels;
-using AnomalyDetection.Application.Web.ViewModels;
-using AnomalyDetection.Domain.Interfaces;
+﻿using AnomalyDetection.Domain.Interfaces;
 using AnomalyDetection.Domain.Models;
+using AnomalyDetection.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace AnomalyDetection.Application.Controllers;
+namespace AnomalyDetection.Web.Controllers;
 
-public class DashboardController : Controller
+public class DashboardController(
+    IRepository<NetworkTrafficLog> repository) : Controller
 {
-    private readonly IRepository<NetworkTrafficLog> _repository;
-    private readonly AlertService _alertService;
-
-    public DashboardController(
-        IRepository<NetworkTrafficLog> repository,
-        AlertService alertService)
-    {
-        _repository = repository;
-        _alertService = alertService;
-    }
-
     public async Task<IActionResult> Index()
     {
         // Get all traffic logs from the last 24 hours
         var yesterday = DateTime.UtcNow.AddDays(-1);
-        var recentLogs = await _repository.FindAsync(log => log.Timestamp >= yesterday);
+        var recentLogs = await repository.FindAsync(log => log.Timestamp >= yesterday);
 
         var anomalies = recentLogs.Where(log => log.IsAnomaly).ToList();
 
@@ -36,7 +21,9 @@ public class DashboardController : Controller
             RecentAlerts = anomalies,
             TotalTrafficLogs = recentLogs.Count(),
             TotalAnomalies = anomalies.Count,
-            AnomalyPercentage = recentLogs.Any() ? (double)anomalies.Count / recentLogs.Count() * 100 : 0
+            AnomalyPercentage = recentLogs.Any() 
+                ? (double)anomalies.Count / recentLogs.Count() * 100 
+                : 0
         };
 
         return View(viewModel);
@@ -46,7 +33,7 @@ public class DashboardController : Controller
     {
         // Get data for the last 7 days for the chart
         var startDate = DateTime.UtcNow.AddDays(-7);
-        var logs = await _repository.FindAsync(log => log.Timestamp >= startDate);
+        var logs = await repository.FindAsync(log => log.Timestamp >= startDate);
 
         // Group logs by day
         var dailyStats = logs

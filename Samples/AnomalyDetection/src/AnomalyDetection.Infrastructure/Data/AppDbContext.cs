@@ -1,18 +1,10 @@
 ﻿using AnomalyDetection.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Reflection.Emit;
-using System.Text;
 
 namespace AnomalyDetection.Infrastructure.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<NetworkTrafficLog> NetworkTrafficLogs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

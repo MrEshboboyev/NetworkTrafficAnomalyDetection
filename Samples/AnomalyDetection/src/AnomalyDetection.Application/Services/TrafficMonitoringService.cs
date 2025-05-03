@@ -3,33 +3,22 @@ using AnomalyDetection.Domain.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AnomalyDetection.Application.Services;
 
-public class TrafficMonitoringService : BackgroundService
+public class TrafficMonitoringService(
+    ILogger<TrafficMonitoringService> logger,
+    IServiceProvider serviceProvider) : BackgroundService
 {
-    private readonly ILogger<TrafficMonitoringService> _logger;
-    private readonly IServiceProvider _serviceProvider;
     private readonly TimeSpan _processingInterval = TimeSpan.FromMinutes(5);
-
-    public TrafficMonitoringService(
-        ILogger<TrafficMonitoringService> logger,
-        IServiceProvider serviceProvider)
-    {
-        _logger = logger;
-        _serviceProvider = serviceProvider;
-    }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Traffic Monitoring Service is starting.");
+        logger.LogInformation("Traffic Monitoring Service is starting.");
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            _logger.LogInformation("Processing traffic logs at: {time}", DateTimeOffset.Now);
+            logger.LogInformation("Processing traffic logs at: {time}", DateTimeOffset.Now);
 
             try
             {
@@ -37,18 +26,18 @@ public class TrafficMonitoringService : BackgroundService
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error processing traffic logs");
+                logger.LogError(ex, "Error processing traffic logs");
             }
 
             await Task.Delay(_processingInterval, stoppingToken);
         }
 
-        _logger.LogInformation("Traffic Monitoring Service is stopping.");
+        logger.LogInformation("Traffic Monitoring Service is stopping.");
     }
 
     private async Task ProcessTrafficLogsAsync()
     {
-        using (var scope = _serviceProvider.CreateScope())
+        using (var scope = serviceProvider.CreateScope())
         {
             var repository = scope.ServiceProvider.GetRequiredService<IRepository<NetworkTrafficLog>>();
             var analyzer = scope.ServiceProvider.GetRequiredService<ITrafficAnalyzer>();
@@ -59,7 +48,7 @@ public class TrafficMonitoringService : BackgroundService
 
             if (!unprocessedLogs.Any())
             {
-                _logger.LogInformation("No unprocessed logs found.");
+                logger.LogInformation("No unprocessed logs found.");
                 return;
             }
 
@@ -78,7 +67,7 @@ public class TrafficMonitoringService : BackgroundService
                 }
             }
 
-            _logger.LogInformation("Processed {count} logs. Found {anomalyCount} anomalies.",
+            logger.LogInformation("Processed {count} logs. Found {anomalyCount} anomalies.",
                 analyzedLogs.Count(), analyzedLogs.Count(l => l.IsAnomaly));
         }
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AnomalyDetection.Application.Web.ViewModels;
+﻿namespace AnomalyDetection.Web.Models;
 
 public class TrafficSummaryViewModel
 {
@@ -14,5 +10,7 @@ public class DailyTrafficSummary
     public DateTime Date { get; set; }
     public int TotalTraffic { get; set; }
     public int AnomalyCount { get; set; }
-    public double AnomalyPercentage => TotalTraffic > 0 ? (double)AnomalyCount / TotalTraffic * 100 : 0;
+    public double AnomalyPercentage => TotalTraffic > 0 
+        ? (double)AnomalyCount / TotalTraffic * 100 
+        : 0;
 }

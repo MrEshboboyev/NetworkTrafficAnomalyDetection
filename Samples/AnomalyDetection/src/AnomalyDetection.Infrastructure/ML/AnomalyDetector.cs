@@ -1,8 +1,5 @@
 ﻿using AnomalyDetection.Domain.Interfaces;
 using AnomalyDetection.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AnomalyDetection.Infrastructure.ML;
 
@@ -17,7 +14,7 @@ public class AnomalyDetector : ITrafficAnalyzer
     // Isolation Forest parameters
     //private readonly int _sampleSize = 100;
     private readonly int _treeCount = 100;
-    private readonly Random _random = new Random(42);
+    private readonly Random _random = new(42);
 
     public AnomalyDetector()
     {
@@ -26,7 +23,7 @@ public class AnomalyDetector : ITrafficAnalyzer
 
     public async Task<IEnumerable<NetworkTrafficLog>> AnalyzeTrafficAsync(IEnumerable<NetworkTrafficLog> logs)
     {
-        List<NetworkTrafficLog> analyzedLogs = new List<NetworkTrafficLog>();
+        List<NetworkTrafficLog> analyzedLogs = [];
 
         foreach (var log in logs)
         {

@@ -1,7 +1,4 @@
 ﻿using AnomalyDetection.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AnomalyDetection.Infrastructure.ML;
 
@@ -10,8 +7,8 @@ public class FeatureEngineering
     // Extracts features from raw network traffic data
     public float[] ExtractFeatures(NetworkTrafficLog log)
     {
-        return new float[]
-        {
+        return
+        [
                 log.BytesSent,
                 log.BytesReceived,
                 log.ConnectionDuration,
@@ -21,7 +18,7 @@ public class FeatureEngineering
                 CalculateProtocolRiskLevel(log.Protocol),
                 CalculateIpReputationScore(log.SourceIp),
                 CalculateIpReputationScore(log.DestinationIp)
-        };
+        ];
     }
 
     // Normalize features to have consistent scale
@@ -66,21 +63,15 @@ public class FeatureEngineering
     // Assign risk level based on protocol
     private float CalculateProtocolRiskLevel(string protocol)
     {
-        switch (protocol.ToUpper())
+        return protocol.ToUpper() switch
         {
-            case "HTTPS":
-                return 0.1f;
-            case "HTTP":
-                return 0.3f;
-            case "SSH":
-                return 0.2f;
-            case "FTP":
-                return 0.6f;
-            case "TELNET":
-                return 0.9f;
-            default:
-                return 0.7f;
-        }
+            "HTTPS" => 0.1f,
+            "HTTP" => 0.3f,
+            "SSH" => 0.2f,
+            "FTP" => 0.6f,
+            "TELNET" => 0.9f,
+            _ => 0.7f,
+        };
     }
 
     // Simulated IP reputation score (in a real system, this would query a reputation database)
@@ -88,7 +79,7 @@ public class FeatureEngineering
     {
         // This is a placeholder - in a real system you would check against an IP reputation database
         // For now, just return a random value between 0 and 1
-        Random random = new Random(ip.GetHashCode());
+        Random random = new(ip.GetHashCode());
         return (float)random.NextDouble();
     }
 }

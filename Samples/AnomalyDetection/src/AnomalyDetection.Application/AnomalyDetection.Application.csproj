@@ -4,6 +4,8 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Configuration" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\AnomalyDetection.Domain\AnomalyDetection.Domain.csproj" />

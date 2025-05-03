@@ -1,28 +1,15 @@
 using AnomalyDetection.Application.Services;
-using AnomalyDetection.Application.ViewModels;
-using AnomalyDetection.Application.Web.ViewModels;
 using AnomalyDetection.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Text;
 
-namespace AnomalyDetection.Application.Controllers;
+namespace AnomalyDetection.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(AlertService alertService) : Controller
 {
-    private readonly AlertService _alertService;
-
-    public HomeController(AlertService alertService)
-    {
-        _alertService = alertService;
-    }
-
     public async Task<IActionResult> Index()
     {
-        var recentAlerts = await _alertService.GetRecentAlertsAsync(5);
+        var recentAlerts = await alertService.GetRecentAlertsAsync(5);
 
         var viewModel = new DashboardViewModel
         {
