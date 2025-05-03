@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnomalyDetection.Infrastruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnomalyDetection.Application", "src\AnomalyDetection.Application\AnomalyDetection.Application.csproj", "{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnomalyDetection.Web", "src\AnomalyDetection.Web\AnomalyDetection.Web.csproj", "{4C686614-286E-44F9-9F24-5FD3B3A3919B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C686614-286E-44F9-9F24-5FD3B3A3919B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C686614-286E-44F9-9F24-5FD3B3A3919B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C686614-286E-44F9-9F24-5FD3B3A3919B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C686614-286E-44F9-9F24-5FD3B3A3919B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{F6A58F42-BE88-4506-85F3-6DCDDDBD7D32} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{C31656A7-6446-4D38-A545-E9F247589965} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{D900C0A9-9CE9-4084-BC5C-5ED13D082D1B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4C686614-286E-44F9-9F24-5FD3B3A3919B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {847C7A80-FC5D-4772-A797-C865824C53E5}

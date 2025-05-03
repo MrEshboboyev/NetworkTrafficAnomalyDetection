@@ -1,6 +1,7 @@
-﻿using AnomalyDetection.Application.Services;
+using AnomalyDetection.Application.Services;
 using AnomalyDetection.Application.ViewModels;
 using AnomalyDetection.Application.Web.ViewModels;
+using AnomalyDetection.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

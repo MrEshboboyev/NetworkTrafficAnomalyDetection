@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="..\AnomalyDetection.Application\AnomalyDetection.Application.csproj" />
+    <ProjectReference Include="..\AnomalyDetection.Infrastructure\AnomalyDetection.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

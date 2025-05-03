@@ -1,4 +1,4 @@
-﻿using AnomalyDetection.Application.Services;
+using AnomalyDetection.Application.Services;
 using AnomalyDetection.Domain.Interfaces;
 using AnomalyDetection.Domain.Models;
 using AnomalyDetection.Infrastructure.Data;
